@@ -1,0 +1,37 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border: 3px solid black;
+
+}
+
+td {
+  padding: 0;
+}
+
+.square {
+  width: 4vw;
+  height: 4vw;
+  text-align: center;
+  padding: 0;
+  border: 1px solid black;
+  font-size: 3vw;
+}
+
+#sudoku-board {
+  padding: 3vw;
+}
+
+#rowBorder {
+  border-bottom: 2px solid black;
+}
+
+#colBorder {
+  border-right: 2px solid black;
+}
