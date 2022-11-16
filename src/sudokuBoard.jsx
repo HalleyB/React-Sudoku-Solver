@@ -1,23 +1,23 @@
-import React from 'react'
+import React from 'react';
+import axios from 'axios';
+
 
 const SudokuBoard = (props) => {
 
-  const rows = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-  const columns = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  let board = props.board;
 
-  const board = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0]
-  ]
+  const [sudokuArr, setSudokuArr] = React.useState(props.copyBoard(props.board));
 
-  const [sudokuArr, setSudokuArr] = React.useState(board)
+
+  const saveBoard = () => {
+    axios.post('/sudoku', sudokuArr)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
 
 
   const solve = () => {
@@ -39,21 +39,64 @@ const SudokuBoard = (props) => {
           board[row][col] = 0
         }
       }
-
       return false;
+    }
+  }
+
+  const watchSolve = (callback) => {
+
+    let findSpot = findEmptySpot();
+
+    if (!findSpot) {
+      return callback(true);
+    } else {
+      let row = findSpot[0];
+      let col = findSpot[1];
+
+      let i = 1;
+
+      const nextStep = () => {
+        if (i < 10) {
+          board[row][col] = i;
+          setSudokuArr(props.copyBoard(board))
+          if (checkIfValidNum(i, row, col)) {
+            watchSolve(function (solved) {
+              if (solved) {
+                callback(true);
+              } else {
+                board[row][col] = 0;
+                i++;
+                setTimeout(nextStep, 50);
+              }
+            });
+          } else {
+            i++
+            setTimeout(nextStep, 50);
+          }
+        } else {
+          board[row][col] = 0;
+          callback(false)
+        }
+      }
+      nextStep();
 
     }
-    setSudokuArr([...board]);
+  }
 
+  const findEmptySpot = () => {
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board.length; j++) {
+        if (board[i][j] === 0) {
+          return [i, j];
+        }
+      }
+    }
+    return false;
   }
 
   const checkIfValidNum = (num, row, col) => {
-
     row = Number(row);
     col = Number(col);
-
-    board[row][col] = num;
-    setSudokuArr([...board]);
 
     // Check row
     for (let i = 0; i < board[0].length; i++) {
@@ -89,20 +132,31 @@ const SudokuBoard = (props) => {
   const changeBoard = (row, col, e) => {
     let num = parseInt(e.target.value) || 0;
     if (num > -1 && num < 10) {
-      board[row][col] = num;
+      if(checkIfValidNum(num, row, col)) {
+        board[row][col] = num;
+      }
     }
-    setSudokuArr(board);
+    setSudokuArr(props.copyBoard(board));
+  }
+
+  const reset = () => {
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board.length; j++) {
+        board[i][j] = 0;
+      }
+    }
+    setSudokuArr(props.copyBoard(board));
   }
 
   return (
     <div id="sudoku-board">
-      <table>
+      <table className='sudoku-table'>
         <tbody>
-        {rows.map((row, rIndex) => {
-          return (<tr id={(row + 1) % 3 === 0 ? 'rowBorder' : ''} key={rIndex}>
-            {columns.map((column, cIndex) => {
-              return <td key={rIndex + cIndex} id={(column + 1) % 3 === 0 ? 'colBorder' : ''}>
-                <input onChange={e => changeBoard(row, column, e)} defaultValue={sudokuArr[row][column] === 0 ? '' : sudokuArr[row][column]} className="square"></input>
+        {sudokuArr.map((row, rIndex) => {
+          return (<tr id={(rIndex+ 1) % 3 === 0 ? 'rowBorder' : ''} key={rIndex}>
+            {sudokuArr[rIndex].map((column, cIndex) => {
+              return <td key={rIndex + cIndex} id={(cIndex + 1) % 3 === 0 ? 'colBorder' : ''}>
+                <input onChange={e => changeBoard(rIndex, cIndex, e)} className="square" value={sudokuArr[rIndex][cIndex] === 0 ? '' : sudokuArr[rIndex][cIndex]} id="square"></input>
               </td>
             })}
           </tr>)
@@ -110,7 +164,13 @@ const SudokuBoard = (props) => {
 
         </tbody>
       </table>
-    <button onClick={e => {solve(); setSudokuArr([...board]);}}>Solve</button>
+    <button onClick={e => {solve(); setSudokuArr(props.copyBoard(board));}}>Solve</button>
+    <button onClick={e => {watchSolve((solved) =>  {
+      if (solved){
+        setSudokuArr(props.copyBoard(board))
+      }})}}>Watch Solve</button>
+    <button onClick={e => {saveBoard()}}>Save Board</button>
+    <button onClick={e => reset()}>Reset</button>
 
     </div>
   )

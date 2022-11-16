@@ -3,25 +3,65 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background-color: #555555;
 }
 
-table {
-  border-collapse: collapse;
-  border: 3px solid black;
+.app-body {
+  margin-left: 5vw;
+}
 
+h1 {
+  color: white;
+  padding-left: 3vw;
+}
+
+.sudoku-table {
+  border-collapse: collapse;
+  border: 4px solid white;
+
+}
+
+.other-boards-div {
+  max-height: 50vw;
+  overflow-y: auto;
+}
+
+.other-tables {
+  border-collapse: collapse;
+  border: 2px solid white;
 }
 
 td {
   padding: 0;
+  min-height: 0%;
+}
+
+tr {
+  padding: 0;
+  min-height: 0%;
 }
 
 .square {
-  width: 4vw;
-  height: 4vw;
+  width: 2.5vw;
+  height: 2.5vw;
   text-align: center;
   padding: 0;
-  border: 1px solid black;
-  font-size: 3vw;
+  border: 1px solid #999999;
+  font-size: 2vw;
+  color: white;
+  background-color: #777777;
+}
+
+.square-two {
+  width: .75vw;
+  height: .75vw;
+  min-height: 0%;
+  text-align: center;
+  padding: 0;
+  border: 1px solid #999999;
+  font-size: .4vw;
+  color: white;
+  background-color: #777777;
 }
 
 #sudoku-board {
@@ -29,9 +69,9 @@ td {
 }
 
 #rowBorder {
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid white;
 }
 
 #colBorder {
-  border-right: 2px solid black;
+  border-right: 2px solid white;
 }

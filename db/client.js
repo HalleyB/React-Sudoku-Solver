@@ -21,3 +21,17 @@ const sudokuSchema = new mongoose.Schema({
 })
 
 const Sudoku = mongoose.model('Sudoku', sudokuSchema);
+
+const save = (data) => {
+  let newBoard = new Sudoku(data);
+  return newBoard.save();
+}
+
+const get = () => {
+  return Sudoku.find({});
+}
+
+module.exports = {
+  save,
+  get
+}
