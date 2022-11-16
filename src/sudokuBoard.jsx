@@ -4,10 +4,7 @@ import axios from 'axios';
 
 const SudokuBoard = (props) => {
 
-  let board = props.board;
-
-  const [sudokuArr, setSudokuArr] = React.useState(props.copyBoard(props.board));
-
+  let board = props.copyBoard(props.board);
 
   const saveBoard = () => {
     axios.post('/sudoku', sudokuArr)
@@ -58,7 +55,7 @@ const SudokuBoard = (props) => {
       const nextStep = () => {
         if (i < 10) {
           board[row][col] = i;
-          setSudokuArr(props.copyBoard(board))
+          props.setBoard(props.copyBoard(board))
           if (checkIfValidNum(i, row, col)) {
             watchSolve(function (solved) {
               if (solved) {
@@ -136,7 +133,7 @@ const SudokuBoard = (props) => {
         board[row][col] = num;
       }
     }
-    setSudokuArr(props.copyBoard(board));
+    props.setBoard(props.copyBoard(board));
   }
 
   const reset = () => {
@@ -145,18 +142,18 @@ const SudokuBoard = (props) => {
         board[i][j] = 0;
       }
     }
-    setSudokuArr(props.copyBoard(board));
+    props.setBoard(props.copyBoard(board));
   }
 
   return (
     <div id="sudoku-board">
       <table className='sudoku-table'>
         <tbody>
-        {sudokuArr.map((row, rIndex) => {
+        {props.board.map((row, rIndex) => {
           return (<tr id={(rIndex+ 1) % 3 === 0 ? 'rowBorder' : ''} key={rIndex}>
-            {sudokuArr[rIndex].map((column, cIndex) => {
+            {props.board[rIndex].map((column, cIndex) => {
               return <td key={rIndex + cIndex} id={(cIndex + 1) % 3 === 0 ? 'colBorder' : ''}>
-                <input onChange={e => changeBoard(rIndex, cIndex, e)} className="square" value={sudokuArr[rIndex][cIndex] === 0 ? '' : sudokuArr[rIndex][cIndex]} id="square"></input>
+                <input onChange={e => changeBoard(rIndex, cIndex, e)} className="square" value={props.board[rIndex][cIndex] === 0 ? '' : props.board[rIndex][cIndex]} id="square"></input>
               </td>
             })}
           </tr>)
@@ -164,10 +161,10 @@ const SudokuBoard = (props) => {
 
         </tbody>
       </table>
-    <button onClick={e => {solve(); setSudokuArr(props.copyBoard(board));}}>Solve</button>
+    <button onClick={e => {solve(); props.setBoard(props.copyBoard(board));}}>Solve</button>
     <button onClick={e => {watchSolve((solved) =>  {
       if (solved){
-        setSudokuArr(props.copyBoard(board))
+        props.setBoard(props.copyBoard(board))
       }})}}>Watch Solve</button>
     <button onClick={e => {saveBoard()}}>Save Board</button>
     <button onClick={e => reset()}>Reset</button>

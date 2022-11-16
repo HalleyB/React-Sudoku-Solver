@@ -5,17 +5,6 @@ import axios from 'axios';
 import SudokuBoard from './sudokuBoard.jsx';
 import OtherBoards from './otherboards.jsx';
 
-const board = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0]
-]
 
 const App = () => {
 
@@ -25,11 +14,17 @@ const App = () => {
     return JSON.parse(JSON.stringify(bo));
   }
 
-  let appBoard = copyBoard(board);
-
-  const setAppBoard = (arr) => {
-    appBoard = copyBoard(arr);
-  }
+  const [appBoard, setAppBoard] = React.useState([
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0]
+  ])
 
   const forceRender = () => {
     setReRender([...reRender]);
@@ -39,7 +34,7 @@ const App = () => {
     <div className='app-body'>
       <h1>Sudoku Solver</h1>
       <div>
-        <SudokuBoard board={appBoard} copyBoard={copyBoard}/>
+        <SudokuBoard board={appBoard} setBoard={setAppBoard} copyBoard={copyBoard}/>
       </div>
       <div>
         <OtherBoards setAppBoard={setAppBoard} forceRender={forceRender}/>

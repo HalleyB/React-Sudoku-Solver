@@ -27,7 +27,7 @@ const OtherBoards = (props) => {
   return (
     <div className='other-boards-div'>
       {boards.map(board => {
-        return <EachBoard sudokuArr={board} setAppBoard={props.setAppBoard} forceRender={props.forceRender}/>
+        return <EachBoard key={board} sudokuArr={board} setAppBoard={props.setAppBoard} forceRender={props.forceRender}/>
       })}
       <button onClick={e => getBoards()}>See other boards</button>
     </div>
