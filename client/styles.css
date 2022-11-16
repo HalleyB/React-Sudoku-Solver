@@ -6,13 +6,41 @@ body {
   background-color: #555555;
 }
 
+button {
+  color: white;
+  background-color: black;
+  height: 40px;
+  font-size: 30px;
+  margin: 10px;
+}
+
 .app-body {
-  margin-left: 5vw;
+  margin: auto;
 }
 
 h1 {
   color: white;
   padding-left: 3vw;
+  font-size: 50px;
+  margin: auto;
+  text-align: center;
+}
+
+.flex-container {
+  display: flex;
+  width: 1000px;
+  margin: auto;
+}
+
+.flex-sudoku {
+  flex: 3;
+}
+
+.flex-other {
+  flex: 1;
+  max-height: 500px;
+  overflow-y: auto;
+  margin-top: 50px;
 }
 
 .sudoku-table {
@@ -21,14 +49,10 @@ h1 {
 
 }
 
-.other-boards-div {
-  max-height: 50vw;
-  overflow-y: auto;
-}
-
 .other-tables {
   border-collapse: collapse;
   border: 2px solid white;
+  margin-top: 5px;
 }
 
 td {
@@ -42,24 +66,23 @@ tr {
 }
 
 .square {
-  width: 2.5vw;
-  height: 2.5vw;
+  width: 50px;
+  height: 50px;
   text-align: center;
   padding: 0;
   border: 1px solid #999999;
-  font-size: 2vw;
+  font-size: 40px;
   color: white;
   background-color: #777777;
 }
 
 .square-two {
-  width: .75vw;
-  height: .75vw;
-  min-height: 0%;
+  width: 22px;
+  height: 22px;
   text-align: center;
   padding: 0;
   border: 1px solid #999999;
-  font-size: .4vw;
+  font-size: 20px;
   color: white;
   background-color: #777777;
 }

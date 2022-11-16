@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/sudoku')
+const connectionString = process.env.DATABASE_URL;
+
+mongoose.connect(connectionString)
 .then(() => {
   console.log('Database connected!');
 })

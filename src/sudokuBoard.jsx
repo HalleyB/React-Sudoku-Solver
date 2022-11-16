@@ -7,9 +7,9 @@ const SudokuBoard = (props) => {
   let board = props.copyBoard(props.board);
 
   const saveBoard = () => {
-    axios.post('/sudoku', sudokuArr)
+    axios.post('/sudoku', props.board)
     .then(res => {
-      console.log(res);
+      props.getBoards();
     })
     .catch(err => {
       console.log(err);
@@ -161,14 +161,18 @@ const SudokuBoard = (props) => {
 
         </tbody>
       </table>
-    <button onClick={e => {solve(); props.setBoard(props.copyBoard(board));}}>Solve</button>
-    <button onClick={e => {watchSolve((solved) =>  {
-      if (solved){
-        props.setBoard(props.copyBoard(board))
-      }})}}>Watch Solve</button>
-    <button onClick={e => {saveBoard()}}>Save Board</button>
-    <button onClick={e => reset()}>Reset</button>
+      <div>
 
+        <button onClick={e => {solve(); props.setBoard(props.copyBoard(board));}}>Solve</button>
+        <button onClick={e => {watchSolve((solved) =>  {
+          if (solved){
+            props.setBoard(props.copyBoard(board))
+          }})}}>Watch Solve</button>
+      </div>
+      <div>
+        <button onClick={e => {saveBoard()}}>Save Board</button>
+        <button onClick={e => reset()}>Reset</button>
+      </div>
     </div>
   )
 }

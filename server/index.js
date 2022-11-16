@@ -2,11 +2,13 @@ const express = require('express');
 const path = require('path');
 const db = require('../db/client.js');
 
+const port = process.env.PORT || 3000;
+
 const app = express();
+
 app.use(express.static(path.join(__dirname, "../client")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const PORT = 3000;
 
 app.post('/sudoku', (req, res) => {
   let data = req.body
@@ -41,6 +43,6 @@ app.get('/sudoku', (req, res) => {
   })
 })
 
-app.listen(PORT, () => {
-  console.log('Listening on port ' + PORT + '!');
+app.listen(port, () => {
+  console.log('Listening on port ' + port + '!');
 })
